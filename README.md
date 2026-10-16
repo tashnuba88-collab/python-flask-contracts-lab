@@ -1,149 +1,54 @@
-# Lab: Contractors Lab
+# Python Flask Contracts Lab
 
----
+A small Flask app for a company that manages contractors between two parties. It has two routes: one for contract information and one for customer information. Customer data is sensitive, so the customer route confirms that a customer exists without returning any of their data.
 
-## Overview
+## Screenshot
 
-Now it is time for you to build your own request responses!
+![Contract route working](screenshot.png)
 
-You are working for a company that manages contracts between two parties. You need to manage sensitive data, and as such, you need to build two requests:
+## Routes
 
-- One for **customer information**
-- One for **contract information**
+### `/contract/<id>`
 
-You will be using two new response codes:
+Looks up a contract by its numeric ID in the `contracts` list.
 
-- **204**: Successful response but no data to send (e.g., confirming a customer exists without sharing data).
-- **404**: Not found — we cannot find the requested data.
+- If the contract is found, it returns the contract information with a 200 response.
+- If the contract is not found, it returns a 404 response.
 
----
+### `/customer/<customer_name>`
 
-## Tasks
+Checks whether a customer name is in the `customers` list.
 
-### Task 1: Define the Problem
+- If the customer is found, it returns an empty body with a 204 response.
+- If the customer is not found, it returns a 404 response.
 
-Build the following routes:
+Customer names are lowercase, so `bob` is found and `Bob` is not.
 
-- `/contract/<id>`
-- `/customer/<customer_name>`
+## Setup
 
----
+1. Create and activate a virtual environment:
 
-### Task 2: Determine the Design
+       python3 -m venv venv
+       source venv/bin/activate
 
-#### App Routes:
+2. Install Flask:
 
-- `GET /contract/<id>`
-  - **200**: Contract found — return contract information.
-  - **404**: Contract not found.
+       pip install flask
 
-- `GET /customer/<customer_name>`
-  - **204**: Customer found — no information returned (sensitive).
-  - **404**: Customer not found.
+3. Run the app from the `server` folder:
 
----
+       cd server
+       python3 app.py
 
-### Task 3: Develop the Code
+The app runs at http://127.0.0.1:5555.
 
-- Initialize Flask
-- Set up routes
-- Configure responses
+## Trying it out
 
----
+- http://127.0.0.1:5555/contract/1 returns the contract text (200)
+- http://127.0.0.1:5555/contract/99 returns 404
+- http://127.0.0.1:5555/customer/bob returns 204 with no content
+- http://127.0.0.1:5555/customer/zed returns 404
 
-### Task 4: Test and Refine
+A 204 response has no body, so the browser stays on the current page. To see the status code, use curl:
 
-- Debug and test during development using the provided test suite and Flask instance.
-
----
-
-### Task 5: Document and Maintain
-
-- Commit as you go with meaningful messages.
-- Push commit history to GitHub periodically and when the lab is complete.
-
----
-
-## Tools and Resources
-
-- **GitHub Repo**: *Link to be provided*
-- **Flask Quickstart**: [https://flask.palletsprojects.com/en/stable/quickstart/](https://flask.palletsprojects.com/en/stable/quickstart/)
-
----
-
-## Instructions
-
-### Set Up
-
-Before coding:
-
-1. **Fork and Clone**
-   - Go to the provided GitHub repository link.
-   - Fork the repository to your GitHub account.
-   - Clone the forked repository to your local machine.
-
-2. **Open and Run**
-   - Open the project in VSCode.
-   - Run `pipenv install` to install dependencies.
-   - Run `pipenv shell` to activate the Python shell.
-
----
-
-### Task 1: Define the Problem
-
-Build the following routes:
-
-- `/contract/<id>`
-- `/customer/<customer_name>`
-
----
-
-### Task 2: Determine the Design
-
-#### App Routes:
-
-- `/contract/<id>`
-  - **200**: Contract found — return information
-  - **404**: Contract not found
-
-- `/customer/<customer_name>`
-  - **204**: Customer found — return no information
-  - **404**: Customer not found
-
----
-
-### Task 3: Develop, Test, and Refine the Code
-
-1. Create a **feature branch**.
-2. Build the following routes:
-
-#### `/contract/<id>`
-
-- If the contract ID is found in the given array:
-  - Return contract information with a **200** response.
-- If not found:
-  - Return a **404** response.
-
-#### `/customer/<customer_name>`
-
-- If the customer name is found:
-  - Return a **204** response with an empty body.
-- If not found:
-  - Return a **404** response.
-
-3. Push the feature branch and open a PR on GitHub.
-4. Merge into `main`.
-
----
-
-### Task 4: Document and Maintain
-
-#### Best Practices:
-
-- Add comments to explain logic and purpose.
-- Clarify code intent for other developers.
-- Include a screenshot of completed work in the README.
-- Update the README to reflect functionality using [https://makeareadme.com](https://makeareadme.com).
-- Delete stale branches on GitHub.
-- Remove unnecessary or commented-out code.
-- Update `.gitignore` if needed to exclude sensitive data
+    curl -i http://127.0.0.1:5555/customer/bob

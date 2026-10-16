@@ -66,3 +66,4 @@ instance
 package-lock.json
 
 solution.py
+venv/
